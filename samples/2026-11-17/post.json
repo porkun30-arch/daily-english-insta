@@ -1,85 +1,47 @@
 {
   "date": "2026-11-17",
-  "phrase": "I'm all ears.",
-  "highlight": [
-    "all ears"
-  ],
+  "phrase": "なるほどね",
+  "genre": "会議",
   "level": "やさしい",
-  "genre": "日常",
-  "hook": "「ぜひ聞かせて！」って英語で？",
-  "meaning": "「全身が耳になってる」＝「しっかり聞いてるよ」「ぜひ聞かせて」という意味。\n相手が話したそうな時や、アイデアを聞きたい時に使うフレンドリーな表現です。",
+  "background": "templates/backgrounds/sample_city_evening.jpg",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「なるほどね」",
+    "sub": "英語で言えますか？"
+  },
+  "intro": {
+    "lead": "「なるほどね」",
+    "body": "って相づち、会話でも会議でも\n1日に何回も使ってませんか？\n\nでも英語だと I see ばっかりに\nなりがちですよね。"
+  },
   "experience": {
-    "issue": 12,
+    "issue": null,
     "comment_id": null,
-    "source": "（サンプル・架空）会議で他に意見ある？って聞きたかったけどAny questions?しか出なかった。質問タイムみたいになった",
-    "title": "会議で意見を募りたかった話",
-    "text": "英語の会議で「他に意見ある人いますか？」と聞きたかったのに、Any questions? しか出てこなくて、質問タイムみたいな空気に…。\n「意見を歓迎してますよ」という温度感まで伝えたいなら、We're all ears. が一番しっくりきます。"
+    "source": "",
+    "text": ""
   },
-  "examples": [
+  "phrases": [
     {
-      "en": "Tell me what happened. I'm all ears.",
-      "ja": "何があったか話して。ちゃんと聞くから。"
+      "en": "I see.",
+      "note": "一番シンプルな「なるほど」。\n日常でも会議でも使える万能フレーズです。",
+      "tip": {"en": "Oh, I see.", "ja": "「あ〜、そういうことね」と気づいた感じに"}
     },
     {
-      "en": "You have a better idea? I'm all ears.",
-      "ja": "もっといい案がある？ぜひ聞かせて。"
+      "en": "That makes sense.",
+      "note": "「筋が通ってるね」「納得！」という意味。\n相手の説明に納得した時にぴったりです。"
     },
     {
-      "en": "Any good places to eat around here? I'm all ears.",
-      "ja": "この辺でおすすめのお店ある？ぜひ教えて。"
+      "lead": "カジュアルに言うなら！",
+      "en": ["Got it.", "Gotcha."],
+      "note": "「了解、わかった」に近いニュアンス。\nGotcha は友達との会話向けです。"
     },
     {
-      "en": "If you know a faster route, I'm all ears.",
-      "ja": "もっと早い行き方を知ってたら、ぜひ教えて。"
-    },
-    {
-      "en": "If anyone has other suggestions, we're all ears.",
-      "ja": "他に提案がある方がいれば、ぜひお聞かせください。"
-    },
-    {
-      "en": "I'm all ears. What's the plan?",
-      "ja": "聞く準備OK。で、どういう計画？"
+      "en": "Fair enough.",
+      "note": "「まあ、それもそうだね」と\n相手の意見を受け入れる時に使います。",
+      "example": {"en": "We need more time? Fair enough.", "ja": "もう少し時間が必要？それもそうだね。"}
     }
   ],
-  "compare": [
-    {
-      "en": "I'm listening.",
-      "ja": "聞いてるよ（淡々と。少し冷たく聞こえることも）"
-    },
-    {
-      "en": "Go ahead.",
-      "ja": "どうぞ（話し始めを促すだけ）"
-    },
-    {
-      "en": "I'm all ears.",
-      "ja": "興味津々、聞く気満々！"
-    }
-  ],
-  "quiz": {
-    "situation": "同僚「ちょっと相談があるんだけど…」\nあなた「いいよ、聞かせて！」",
-    "prompt": "Sure, I'm all ______.",
-    "hint": "体の一部・複数形"
-  },
-  "answer": {
-    "answer": "Sure, I'm all ears.",
-    "explanation": "ear は必ず複数形の ears に。\n「両耳で全力で聞く」イメージで覚えよう！",
-    "cta": "保存して、次の会話で使ってみよう"
-  },
-  "caption": "I'm all ears.（ぜひ聞かせて！）\n\n相手の話を「聞く気満々だよ」と伝えるフレンドリーな表現です。友達との会話はもちろん、旅行先でおすすめを聞く時や、会議で意見を募る時にも使えます。\n\n例）Any good places to eat around here? I'm all ears.\n（この辺でおすすめのお店ある？ぜひ教えて）\n\nあなたならどんな場面で使ってみたいですか？コメントで教えてください👂",
-  "hashtags": [
-    "#英語学習",
-    "#英会話",
-    "#英語フレーズ",
-    "#旅行英会話",
-    "#ビジネス英語"
-  ],
-  "reel": {
-    "hook": "「ぜひ聞かせて！」を英語で言える？",
-    "example_indexes": [
-      0,
-      2,
-      4
-    ]
-  },
-  "reel_caption": "I'm all ears.（ぜひ聞かせて！）\n音声付きで発音もチェック🎧 例文やクイズは今朝のカルーセル投稿で👆"
+  "caption": "「なるほどね」英語で言えますか？\n\nI see ばかりになりがちな相づち。ちょっと変えるだけで会話がぐっと自然になります。\n\n会議なら That makes sense.、友達となら Gotcha. がおすすめ！\n\nあなたがよく使う相づちはどれですか？コメントで教えてください💬",
+  "hashtags": ["#英語学習", "#英会話", "#英語フレーズ", "#ビジネス英語", "#日常英会話"],
+  "reel": {"hook": "「なるほどね」を英語で言い換えると？", "phrase_indexes": [0, 1, 3]},
+  "reel_caption": "「なるほどね」の英語、音声で発音チェック🎧 解説は今朝のカルーセル投稿で👆"
 }

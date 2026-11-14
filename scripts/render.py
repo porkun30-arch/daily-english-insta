@@ -1,237 +1,382 @@
-"""post.json → カルーセル画像（01.png〜）を生成する。
+"""post.json → カルーセル画像（01.png〜）を生成する。過去投稿（Canva 時代）のデザインに合わせたテンプレート。
 
+構成: 表紙 → 導入（体験談 or 共感フック） → 英語フレーズ 1枚ずつ（3〜5枚） → まとめ表 → 締め
 使い方:
     python scripts/render.py queue/2026-11-17 [queue/2026-11-18 ...]
-文字が収まらない場合は自動で縮小し、それでも無理なら WARNING を出す（終了コード 2）。
+文字が収まらない場合は自動で縮小し、それでも無理なら WARNING（終了コード 2）。
 """
 from __future__ import annotations
 
+import random
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
-from common import draw_text, font, load_post, load_style, text_height
+from common import ROOT, draw_text, font, layout, load_post, load_style
 
 STYLE = load_style()
 W, H = STYLE["size"]
 C = STYLE["colors"]
-M = 90                      # 左右余白
-CW = W - M * 2              # 本文幅
-TOP, BOTTOM = 190, H - 150  # 本文エリア
-SCALES = [1.0, 0.92, 0.85, 0.78, 0.72]
+M = 80
+CW = W - 2 * M
 warnings: list[str] = []
 
 
-# ---------------------------------------------------------------- 共通パーツ
+# ---------------------------------------------------------------- 背景
 
-def new_canvas(bg=None):
-    img = Image.new("RGB", (W, H), bg or C["bg"])
-    return img, ImageDraw.Draw(img)
-
-
-def header(d, label, page, total, dark=False):
-    col = C["card"] if dark else C["accent"]
-    d.text((M, 90), label, font=font("bold", 34), fill=col)
-    f = font("regular", 30)
-    t = f"{page}/{total}"
-    d.text((W - M - f.getlength(t), 92), t, font=f, fill=C["sub"] if not dark else C["card"])
-    d.line([(M, 150), (W - M, 150)], fill=col, width=3)
+def cover_crop(img: Image.Image) -> Image.Image:
+    r = max(W / img.width, H / img.height)
+    img = img.resize((int(img.width * r + 1), int(img.height * r + 1)), Image.LANCZOS)
+    x, y = (img.width - W) // 2, (img.height - H) // 2
+    return img.crop((x, y, x + W, y + H))
 
 
-def footer(d, dark=False):
-    f = font("regular", 28)
-    t = STYLE["handle"]
-    d.text(((W - f.getlength(t)) / 2, H - 90), t, font=f, fill=C["card"] if dark else C["sub"])
+def load_background(p: dict) -> Image.Image:
+    bg = p.get("background")
+    if bg and (ROOT / bg).exists():
+        return cover_crop(Image.open(ROOT / bg).convert("RGB")).convert("RGBA")
+    if bg:
+        warnings.append(f"背景写真が見つかりません: {bg}（グラデーションで代用）")
+    top = tuple(int(C["fallback_bg_top"][i:i + 2], 16) for i in (1, 3, 5))
+    bot = tuple(int(C["fallback_bg_bottom"][i:i + 2], 16) for i in (1, 3, 5))
+    g = Image.new("RGB", (1, H))
+    for y in range(H):
+        t = y / H
+        g.putpixel((0, y), tuple(int(top[k] * (1 - t) + bot[k] * t) for k in range(3)))
+    return g.resize((W, H)).convert("RGBA")
 
 
-def card(d, box, radius=28):
-    d.rounded_rectangle(box, radius=radius, fill=C["card"])
+def washed(bg: Image.Image) -> Image.Image:
+    a = int(255 * STYLE.get("overlay_alpha", 0.78))
+    return Image.alpha_composite(bg, Image.new("RGBA", (W, H), (255, 255, 255, a)))
 
 
-def fit(name, builder):
-    """builder(scale, offset) -> (img, bottom_y)。BOTTOM に収まる最大の scale を採用し、
-    余白が大きい場合は本文を少し下げて上下のバランスを取る。"""
-    for s in SCALES:
-        img, bottom = builder(s, 0)
-        if bottom <= BOTTOM:
-            off = min(int((BOTTOM - bottom) * 0.4), 160)
-            return builder(s, off)[0] if off > 20 else img
-    warnings.append(f"{name}: 文字量が多すぎます（最小サイズでもはみ出し）")
-    return img
+# ---------------------------------------------------------------- 文字ユーティリティ
+
+def fit_size(text, kind, max_size, min_size, width, max_lines):
+    """max_lines 行以内に収まる最大のフォントサイズ。"""
+    for s in range(max_size, min_size - 1, -4):
+        if len(layout(text, font(kind, s), width)) <= max_lines:
+            return s
+    warnings.append(f"文字が長すぎます: {text[:20]}…")
+    return min_size
+
+
+def text_h(text, kind, size, width, gap):
+    return len(layout(text, font(kind, size), width)) * int(size * gap)
+
+
+def shadow_text(img, xy, text, kind, size, width, fill, shadow, align="center", gap=1.25, off=6):
+    """少しぼかした濃い影つきの文字（表紙タイトル用）。"""
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    draw_text(d, (xy[0] + off, xy[1] + off), text, font(kind, size), width, shadow + "AA",
+              line_gap=gap, align=align)
+    layer = layer.filter(ImageFilter.GaussianBlur(2))
+    img.alpha_composite(layer)
+    d = ImageDraw.Draw(img)
+    return draw_text(d, xy, text, font(kind, size), width, fill, line_gap=gap, align=align)
+
+
+# ---------------------------------------------------------------- 部品（アイコン類）
+
+def tape(img, text):
+    """「今日から使える!」のマスキングテープ風ラベル。"""
+    tw, th = 660, 170
+    layer = Image.new("RGBA", (tw + 40, th + 40), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    rnd = random.Random(text)
+    pts = [(20, 20)]
+    for x in range(20, tw + 20, 22):  # 上辺は少しだけ揺らす
+        pts.append((x, 20 + rnd.randint(-2, 2)))
+    for y in range(20, th + 20, 14):  # 右端はギザギザに破れた感じ
+        pts.append((tw + 20 + rnd.randint(-10, 6), y))
+    for x in range(tw + 20, 20, -22):
+        pts.append((x, th + 20 + rnd.randint(-2, 2)))
+    for y in range(th + 20, 20, -14):
+        pts.append((20 + rnd.randint(-6, 10), y))
+    col = tuple(int(C["tape"][i:i + 2], 16) for i in (1, 3, 5))
+    d.polygon(pts, fill=col + (238,))
+    # 紙のざらつき
+    for _ in range(2500):
+        x, y = rnd.randint(25, tw + 10), rnd.randint(25, th + 15)
+        v = rnd.randint(-18, 8)
+        d.point((x, y), fill=tuple(max(0, min(255, c + v)) for c in col) + (238,))
+    f = font("hand", 76)
+    tx = (tw + 40 - f.getlength(text)) / 2
+    d.text((tx, (th + 40 - 76) / 2 - 8), text, font=f, fill=C["red"])
+    layer = layer.rotate(-2.5, resample=Image.BICUBIC, expand=True)
+    sh = Image.new("RGBA", layer.size, (0, 0, 0, 0))
+    sh.paste((0, 0, 0, 60), mask=layer.split()[3])
+    sh = sh.filter(ImageFilter.GaussianBlur(6))
+    img.alpha_composite(sh, (34, 62))
+    img.alpha_composite(layer, (20, 50))
+
+
+def checkbox(d, x, y, s):
+    w = max(6, s // 9)
+    d.rounded_rectangle((x, y, x + s, y + s), radius=s // 8, outline=C["text"], width=w)
+    d.line([(x + s * 0.22, y + s * 0.50), (x + s * 0.45, y + s * 0.74), (x + s * 1.0, y + s * 0.05)],
+           fill=C["text"], width=w + 2, joint="curve")
+
+
+def bulb(d, x, y, s):
+    d.ellipse((x, y, x + s, y + s), fill=C["bulb"], outline=C["text"], width=3)
+    d.rectangle((x + s * 0.32, y + s * 0.92, x + s * 0.68, y + s * 1.18), fill="#BBBBBB", outline=C["text"], width=3)
+    for dx, dy, ex, ey in [(-0.25, 0.5, -0.05, 0.5), (1.05, 0.5, 1.25, 0.5), (0.5, -0.25, 0.5, -0.05),
+                           (0.05, 0.05, -0.1, -0.1), (0.95, 0.05, 1.1, -0.1)]:
+        d.line([(x + s * dx, y + s * dy), (x + s * ex, y + s * ey)], fill=C["text"], width=3)
+
+
+def arrow_right(d, x, y, length, color):
+    d.line([(x, y), (x + length - 50, y)], fill=color, width=22)
+    d.polygon([(x + length - 70, y - 48), (x + length, y), (x + length - 70, y + 48)], fill=color)
+
+
+def curly_arrow(d, color):
+    """左上（プロフィール方向）を指す、くるっと一回転した手書き風の矢印。"""
+    import math
+    pts = [(335, 255), (300, 250), (262, 240)]
+    cx, cy, r = 232, 212, 34
+    a0 = math.atan2(240 - cy, 262 - cx)
+    for i in range(1, 41):  # 時計回りに1周ループ
+        a = a0 - 2 * math.pi * i / 40
+        pts.append((cx + r * math.cos(a) * 1.1, cy + r * math.sin(a)))
+    sx, sy = pts[-1]
+    for i in range(1, 21):  # 左上へ伸ばす
+        t = i / 20
+        pts.append((sx + (75 - sx) * t, sy + (95 - sy) * t - 25 * math.sin(math.pi * t)))
+    d.line(pts, fill=color, width=5, joint="curve")
+    ex, ey = pts[-1]
+    d.line([(ex, ey), (ex + 2, ey + 52)], fill=color, width=5)
+    d.line([(ex, ey), (ex + 50, ey + 10)], fill=color, width=5)
 
 
 # ---------------------------------------------------------------- 各スライド
 
-def slide_cover(p, page, total):
-    img, d = new_canvas(C["accent"])
-    hook = p.get("hook", "")
-    y = 300
-    y += draw_text(d, (M, y), hook, font("bold", 52), CW, C["card"], align="center")
-    y += 80
-    fb = font("bold", 104)
-    ph = text_height(p["phrase"], fb, CW - 40)
-    card(d, (M - 10, y - 40, W - M + 10, y + ph + 30), radius=36)
-    draw_text(d, (M + 10, y), p["phrase"], fb, CW - 40, C["accent"], line_gap=1.3, align="center",
-              highlights=p.get("highlight"), highlight_color=C["highlight"])
-    y += ph + 110
-    chip = f"{p.get('genre', '')}  ·  {p.get('level', '')}".strip(" ·")
-    fc = font("bold", 34)
-    cw = fc.getlength(chip) + 60
-    d.rounded_rectangle(((W - cw) / 2, y, (W + cw) / 2, y + 66), radius=33, fill=C["highlight"])
-    d.text(((W - fc.getlength(chip)) / 2, y + 12), chip, font=fc, fill=C["accent"])
-    fs = font("bold", 36)
-    t = "スワイプして覚えよう  →"
-    d.text(((W - fs.getlength(t)) / 2, H - 230), t, font=fs, fill=C["highlight"])
-    footer(d, dark=True)
+def slide_cover(p, bg):
+    img = bg.copy()
+    tape(img, p["cover"].get("tape") or STYLE["tape_text"])
+    title, sub = p["cover"]["title"], p["cover"].get("sub", "")
+    tw = W - 140
+    # タイトルはできるだけ1行で（長ければ2行に）
+    ts = None
+    for s in range(200, 119, -4):
+        if len(layout(title, font("title", s), tw)) == 1:
+            ts = s
+            break
+    if ts is None:
+        ts = fit_size(title, "title", 160, 96, tw, 2)
+    ss = fit_size(sub, "title", 100, 56, tw, 2) if sub else 0
+    th = text_h(title, "title", ts, tw, 1.18)
+    sh = text_h(sub, "title", ss, tw, 1.25) if sub else 0
+    gap = 60 if sub else 0
+    inner = th + gap + sh
+    box_bot = H - 140
+    box_top = box_bot - inner - 170
+    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(ov).rounded_rectangle((40, box_top, W - 40, box_bot), radius=48, fill=(255, 255, 255, 185))
+    img.alpha_composite(ov)
+    y = box_top + 75
+    shadow_text(img, (70, y), title, "title", ts, tw, C["red"], C["red_shadow"], gap=1.18)
+    if sub:
+        shadow_text(img, (70, y + th + gap), sub, "title", ss, tw, C["red"], C["red_shadow"], gap=1.25, off=4)
     return img
 
 
-def slide_text(label, phrase, body, page, total, name, highlights=None, quote=False):
-    def build(s, off):
-        img, d = new_canvas()
-        header(d, label, page, total)
-        y = TOP + 30 + off
-        y += draw_text(d, (M, y), phrase, font("bold", int(64 * s)), CW, C["accent"], line_gap=1.3,
-                       highlights=highlights, highlight_color=C["highlight"])
-        y += 50
-        fb = font("regular", int(44 * s))
-        bh = text_height(body, fb, CW - 100, line_gap=1.7)
-        card(d, (M, y, W - M, y + bh + 100))
-        if quote:
-            d.text((M + 18, y - 10), "“", font=font("bold", 80), fill=C["highlight"])
-        draw_text(d, (M + 50, y + 50), body, fb, CW - 100, C["text"], line_gap=1.7)
-        footer(d)
-        return img, y + bh + 100
-    return fit(name, build)
+def slide_intro(p, bg):
+    img = washed(bg)
+    d = ImageDraw.Draw(img)
+    intro = p.get("intro", {})
+    exp = (p.get("experience") or {}).get("text", "").strip()
+    body = exp or intro.get("body", "")
+    n = len(p["phrases"])
+    lead = intro.get("lead", f"「{p['phrase']}」")
+
+    def blocks(s):
+        lb = text_h(lead, "title", int(64 * s), CW, 1.3)
+        bb = text_h(body, "bold", int(46 * s), CW, 1.65)
+        return lb, bb
+
+    for s in (1.0, 0.92, 0.85, 0.78, 0.72):
+        lb, bb = blocks(s)
+        total = lb + 40 + (70 if exp else 0) + bb + 110 + 150
+        if total < H - 220:
+            break
+    else:
+        warnings.append("導入スライドの文字量が多すぎます")
+    y = max(110, (H - total) / 2 - 30)
+    y += draw_text(d, (M, y), lead, font("title", int(64 * s)), CW, C["red"], line_gap=1.3, align="center")
+    y += 40
+    if exp:
+        f = font("bold", 34)
+        t = "つばさの体験談"
+        tw = f.getlength(t) + 50
+        d.rounded_rectangle(((W - tw) / 2, y, (W + tw) / 2, y + 56), radius=28, fill=C["red"])
+        d.text(((W - f.getlength(t)) / 2, y + 7), t, font=f, fill=C["white"])
+        y += 70
+    y += draw_text(d, (M, y), body, font("bold", int(46 * s)), CW, C["text"], line_gap=1.65, align="center")
+    y += 110
+    # 「そんな時に使えるフレーズ N 個紹介します！」
+    f1, fn, f2 = font("title", 50), font("title", 120), font("title", 50)
+    l1 = "そんな時に使えるフレーズ"
+    d.text(((W - f1.getlength(l1)) / 2, y), l1, font=f1, fill=C["text"])
+    y += 80
+    ns, l2 = str(n), "個紹介します！"
+    tw = fn.getlength(ns) + 20 + f2.getlength(l2)
+    x = (W - tw) / 2
+    d.text((x, y - 40), ns, font=fn, fill=C["red"])
+    d.text((x + fn.getlength(ns) + 20, y + 30), l2, font=f2, fill=C["text"])
+    arrow_right(d, W - 330, min(H - 110, y + 190), 290, C["red"])
+    return img
 
 
-def slide_examples(p, items, idx, n_ex, page, total):
-    def build(s, off):
-        img, d = new_canvas()
-        header(d, f"例文 {idx}/{n_ex}", page, total)
-        y = TOP + 40 + off
-        fe, fj = font("bold", int(50 * s)), font("regular", int(38 * s))
-        for it in items:
-            eh = text_height(it["en"], fe, CW - 100, line_gap=1.4)
-            jh = text_height(it["ja"], fj, CW - 100, line_gap=1.5)
-            h = eh + jh + 130
-            card(d, (M, y, W - M, y + h))
-            yy = y + 45
-            yy += draw_text(d, (M + 50, yy), it["en"], fe, CW - 100, C["text"], line_gap=1.4,
-                            highlights=p.get("highlight"), highlight_color=C["highlight"])
-            yy += 25
-            draw_text(d, (M + 50, yy), it["ja"], fj, CW - 100, C["sub"], line_gap=1.5)
-            y += h + 50
-        footer(d)
-        return img, y - 50
-    return fit(f"例文{idx}", build)
+def slide_phrase(p, bg, item):
+    img = washed(bg)
+    d = ImageDraw.Draw(img)
+    ens = item["en"] if isinstance(item["en"], list) else [item["en"]]
+    lead = item.get("lead", "")
+    note = item.get("note", "")
+    tip = item.get("tip")
+    ex = item.get("example")
+
+    # 英語フレーズのサイズ：一番長い行がチェックボックス込みで収まる大きさ
+    box = 92
+    size = 100
+    while size > 56:
+        fw = max(font("title", size).getlength(e) for e in ens)
+        if fw + box + 36 <= CW:
+            break
+        size -= 4
+    else:
+        warnings.append(f"英語フレーズが長すぎます: {ens[0]}")
+    line_h = int(size * 1.45)
+    fw = max(font("title", size).getlength(e) for e in ens)
+    block_w = box + 36 + fw
+
+    note_s = 46
+    while note_s > 34 and text_h(note, "bold", note_s, CW, 1.6) > 420:
+        note_s -= 2
+    parts = []
+    if lead:
+        parts.append(("lead", text_h(lead, "bold", 42, CW, 1.4)))
+    parts.append(("en", line_h * len(ens)))
+    if note:
+        parts.append(("note", text_h(note, "bold", note_s, CW, 1.6)))
+    if tip:
+        parts.append(("tip", 64 + text_h(tip.get("ja", ""), "bold", 40, CW, 1.4)))
+    if ex:
+        parts.append(("ex", text_h(ex["en"], "bold", 42, CW, 1.4) + text_h(ex["ja"], "regular", 36, CW, 1.4) + 10))
+    gaps = {"lead": 50, "en": 80, "note": 80, "tip": 60, "ex": 0}
+    total = sum(h for _, h in parts) + sum(gaps[k] for k, _ in parts[:-1])
+    if total > H - 200:
+        warnings.append(f"フレーズスライドの文字量が多すぎます: {ens[0]}")
+    y = max(90, (H - total) / 2 - 20)
+    for k, h in parts:
+        if k == "lead":
+            draw_text(d, (M, y), lead, font("bold", 42), CW, C["text"], line_gap=1.4, align="center")
+        elif k == "en":
+            x0 = (W - block_w) / 2
+            for i, e in enumerate(ens):
+                yy = y + i * line_h
+                checkbox(d, x0, yy + (size - box) / 2 + size * 0.12, box)
+                d.text((x0 + box + 36, yy), e, font=font("title", size), fill=C["text"])
+        elif k == "note":
+            draw_text(d, (M, y), note, font("bold", note_s), CW, C["red"], line_gap=1.6, align="center")
+        elif k == "tip":
+            fe = font("bold", 48)
+            tw = 90 + fe.getlength(tip["en"])
+            x0 = (W - tw) / 2
+            bulb(d, x0, y + 4, 52)
+            d.text((x0 + 90, y), tip["en"], font=fe, fill=C["text"])
+            draw_text(d, (M, y + 64), tip.get("ja", ""), font("bold", 40), CW, C["text"],
+                      line_gap=1.4, align="center")
+        elif k == "ex":
+            yy = y + draw_text(d, (M, y), ex["en"], font("bold", 42), CW, C["text"], line_gap=1.4, align="center")
+            draw_text(d, (M, yy + 10), ex["ja"], font("regular", 36), CW, C["sub"], line_gap=1.4, align="center")
+        y += h + gaps[k]
+    return img
 
 
-def slide_compare(p, page, total):
-    def build(s, off):
-        img, d = new_canvas()
-        header(d, "似た表現との違い", page, total)
-        y = TOP + 40 + off
-        fe, fj = font("bold", int(50 * s)), font("regular", int(38 * s))
-        for i, it in enumerate(p["compare"]):
-            if i:
-                d.line([(M, y), (W - M, y)], fill="#E3DED5", width=2)
-                y += 45
-            is_main = it["en"].strip().lower() == p["phrase"].strip().lower()
-            col = C["accent"] if is_main else C["text"]
-            y += draw_text(d, (M, y), it["en"], fe, CW, col, line_gap=1.35,
-                           highlights=p.get("highlight") if is_main else None,
-                           highlight_color=C["highlight"])
-            y += 12
-            y += draw_text(d, (M, y), it["ja"], fj, CW, C["sub"], line_gap=1.5)
-            y += 45
-        footer(d)
-        return img, y
-    return fit("似た表現", build)
+def slide_summary(p, bg):
+    img = washed(bg)
+    d = ImageDraw.Draw(img)
+    rows = []
+    for it in p["phrases"]:
+        rows += it["en"] if isinstance(it["en"], list) else [it["en"]]
+    y = 170
+    y += draw_text(d, (M, y), "いかがでしたか？", font("title", 62), CW, C["red"], align="center")
+    y += 10
+    y += draw_text(d, (M, y), "使えそうなフレーズがあれば\nぜひ今日から使ってみてください！", font("title", 52),
+                   CW, C["text"], line_gap=1.45, align="center")
+    y += 70
+    rh = min(110, int((H - 140 - y) / max(1, len(rows))))
+    fs = min(44, int(rh * 0.45))
+    tw = 760
+    x0 = (W - tw) / 2
+    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    ImageDraw.Draw(ov).rectangle((x0, y, x0 + tw, y + rh * len(rows)), fill=(255, 255, 255, 120))
+    img.alpha_composite(ov)
+    d = ImageDraw.Draw(img)
+    for i, r in enumerate(rows):
+        top = y + i * rh
+        d.rectangle((x0, top, x0 + tw, top + rh), outline="#333333", width=2)
+        f = font("bold", fs)
+        while f.getlength(r) > tw - 50 and fs > 26:
+            fs -= 2
+            f = font("bold", fs)
+        d.text((x0 + 26, top + (rh - fs) / 2 - 4), r, font=f, fill=C["text"])
+    return img
 
 
-def slide_quiz(p, page, total):
-    q = p["quiz"]
-
-    def build(s, off):
-        img, d = new_canvas()
-        header(d, "練習問題", page, total)
-        y = TOP + 40 + off
-        y += draw_text(d, (M, y), q["situation"], font("regular", int(44 * s)), CW, C["text"], line_gap=1.6)
-        y += 60
-        fp = font("bold", int(60 * s))
-        ph = text_height(q["prompt"], fp, CW - 100, line_gap=1.35)
-        card(d, (M, y, W - M, y + ph + 110))
-        draw_text(d, (M + 50, y + 55), q["prompt"], fp, CW - 100, C["accent"], line_gap=1.35, align="center")
-        y += ph + 110 + 50
-        if q.get("hint"):
-            y += draw_text(d, (M, y), f"ヒント：{q['hint']}", font("regular", int(38 * s)), CW, C["sub"])
-        fa = font("bold", 36)
-        t = "答えは次のページ  →"
-        d.text(((W - fa.getlength(t)) / 2, H - 230), t, font=fa, fill=C["accent"])
-        footer(d)
-        return img, y
-    return fit("練習問題", build)
-
-
-def slide_answer(p, page, total):
-    a = p["answer"]
-
-    def build(s, off):
-        img, d = new_canvas()
-        header(d, "答え", page, total)
-        y = TOP + 40 + off
-        y += draw_text(d, (M, y), a["answer"], font("bold", int(66 * s)), CW, C["accent"], line_gap=1.3,
-                       highlights=p.get("highlight"), highlight_color=C["highlight"])
-        y += 50
-        y += draw_text(d, (M, y), a["explanation"], font("regular", int(42 * s)), CW, C["text"], line_gap=1.7)
-        # 保存CTA帯
-        band_top = H - 330
-        d.rounded_rectangle((M, band_top, W - M, band_top + 150), radius=28, fill=C["accent"])
-        draw_text(d, (M + 40, band_top + 48), a.get("cta", "保存して見返そう"),
-                  font("bold", 42), CW - 80, C["card"], align="center")
-        footer(d)
-        # 本文が CTA 帯の 40px 手前までに収まれば OK（BOTTOM 基準に換算して返す）
-        return img, y + (BOTTOM - (band_top - 40))
-    return fit("答え", build)
+def slide_closing(p, bg):
+    img = washed(bg)
+    d = ImageDraw.Draw(img)
+    cl = STYLE["closing"]
+    curly_arrow(d, C["text"])
+    d.text((350, 215), cl["check_more"], font=font("regular", 46), fill=C["text"])
+    y = 480
+    y += draw_text(d, (M, y), cl["intro"], font("regular", 46), CW, C["text"], align="center")
+    y += 40
+    for b in cl["bullets"]:
+        y += draw_text(d, (M, y), "√" + b, font("title", 50), CW, C["text"], line_gap=1.45, align="center")
+    y += 40
+    draw_text(d, (M, y), cl["outro"], font("regular", 46), CW, C["text"], align="center")
+    d.text((230, H - 205), cl["save"], font=font("regular", 48), fill=C["text"])
+    # 保存アイコン（ブックマーク）
+    x, yb, bw, bh = W - 260, H - 300, 150, 210
+    notch = img.getpixel((int(x + bw / 2), int(yb + bh + 8)))
+    d.rectangle((x, yb, x + bw, yb + bh), fill=C["bookmark"])
+    d.polygon([(x - 1, yb + bh + 1), (x + bw / 2, yb + bh - 60), (x + bw + 1, yb + bh + 1)], fill=notch)
+    return img
 
 
 # ---------------------------------------------------------------- 組み立て
 
 def build_slides(p):
-    exp = (p.get("experience") or {}).get("text", "").strip()
-    ex = p["examples"]
-    chunks = [ex[i:i + 2] for i in range(0, len(ex), 2)]
-    total = 1 + 1 + (1 if exp else 0) + len(chunks) + 1 + 1 + 1
-    slides, page = [], 1
-    slides.append(slide_cover(p, page, total)); page += 1
-    slides.append(slide_text("意味とニュアンス", p["phrase"], p["meaning"], page, total, "意味",
-                             highlights=p.get("highlight"))); page += 1
-    if exp:
-        slides.append(slide_text("つばさの体験談", p.get("experience", {}).get("title", "実際にあった話"),
-                                 exp, page, total, "体験談", quote=True)); page += 1
-    for i, ch in enumerate(chunks, 1):
-        slides.append(slide_examples(p, ch, i, len(chunks), page, total)); page += 1
-    slides.append(slide_compare(p, page, total)); page += 1
-    slides.append(slide_quiz(p, page, total)); page += 1
-    slides.append(slide_answer(p, page, total))
-    return slides
+    bg = load_background(p)
+    slides = [slide_cover(p, bg), slide_intro(p, bg)]
+    slides += [slide_phrase(p, bg, it) for it in p["phrases"]]
+    slides += [slide_summary(p, bg), slide_closing(p, bg)]
+    return [s.convert("RGB") for s in slides]
 
 
 def validate(p, folder):
     errs = []
-    for k in ["date", "phrase", "hook", "meaning", "examples", "compare", "quiz", "answer", "caption", "hashtags"]:
+    for k in ["date", "phrase", "cover", "phrases", "caption", "hashtags"]:
         if k not in p:
             errs.append(f"{k} がありません")
-    if not 5 <= len(p.get("examples", [])) <= 7:
-        errs.append("examples は 5〜7 個にしてください")
+    if not 3 <= len(p.get("phrases", [])) <= 5:
+        errs.append("phrases は 3〜5 個にしてください")
+    if "title" not in p.get("cover", {}):
+        errs.append("cover.title がありません")
     if not 3 <= len(p.get("hashtags", [])) <= 5:
         errs.append("hashtags は 3〜5 個にしてください（Instagram の上限は5）")
     cap = p.get("caption", "") + "\n\n" + " ".join(p.get("hashtags", []))
     if len(cap) > 2200:
         errs.append(f"caption + hashtags が {len(cap)} 文字（上限 2,200）")
-    if p.get("caption", "").count("#") > 0:
+    if "#" in p.get("caption", ""):
         errs.append("caption 本文に # を入れないでください（hashtags に入れる）")
     if p.get("date") and p["date"] != folder.name:
         errs.append(f"date ({p['date']}) とフォルダ名 ({folder.name}) が一致しません")

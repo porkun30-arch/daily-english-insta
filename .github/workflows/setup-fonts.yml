@@ -1,0 +1,39 @@
+name: setup-fonts
+# 過去投稿の雰囲気に近い無料フォント（Google Fonts / OFL ライセンス）を取得して templates/fonts/ にコミットする
+# 初回に1回だけ手動実行すればOK
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fonts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download fonts
+        run: |
+          set -e
+          mkdir -p templates/fonts
+          base=https://raw.githubusercontent.com/google/fonts/main/ofl
+          for f in mplusrounded1c/MPLUSRounded1c-Black.ttf \
+                   mplusrounded1c/MPLUSRounded1c-ExtraBold.ttf \
+                   mplusrounded1c/MPLUSRounded1c-Medium.ttf \
+                   mplusrounded1c/OFL.txt \
+                   yuseimagic/YuseiMagic-Regular.ttf; do
+            name=$(basename $f)
+            [ "$name" = "OFL.txt" ] && name="OFL-MPLUSRounded1c.txt"
+            curl -fsSL "$base/$f" -o "templates/fonts/$name"
+            echo "downloaded $name"
+          done
+          curl -fsSL "$base/yuseimagic/OFL.txt" -o templates/fonts/OFL-YuseiMagic.txt
+          ls -la templates/fonts
+      - name: Commit
+        run: |
+          git config user.name "insta-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add templates/fonts
+          git diff --cached --quiet && exit 0
+          git commit -m "Add fonts (M PLUS Rounded 1c, Yusei Magic)"
+          git pull --rebase && git push

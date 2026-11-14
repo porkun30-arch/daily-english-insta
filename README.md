@@ -2,7 +2,7 @@
 
 Instagram **@daily_english_tsubasa** を AI 社員チームで運用するリポジトリです。
 
-- 毎朝 7:00：カルーセル（9〜10枚）を自動投稿
+- 毎朝 7:00：カルーセル（7〜9枚・過去投稿と同じデザイン）を自動投稿
 - 火・木・土 21:00：音声付きリールを自動投稿
 - 水曜：リサーチャーがネタ候補と「体験談の呼び水」Issue を作成
 - 土曜：アナリストが分析 → 編集長が7本作成 → 英語校閲 → PR
@@ -50,6 +50,11 @@ Instagram **@daily_english_tsubasa** を AI 社員チームで運用するリポ
 5. Secret `IG_USER_ID` = Instagram アカウントID（アプリ画面のアカウント名の下の数字）
 6. **Actions → publish → Run workflow（kind=whoami）** で接続とトークン期限を確認
 
+### 2.5 フォントと背景写真
+- **フォント**：Actions → **setup-fonts** → Run workflow（1回だけ）。M PLUS Rounded 1c と Yusei Magic が `templates/fonts/` に入る
+- **背景写真**：`templates/backgrounds/` に写真を追加（GitHub の画面で「Add file → Upload files」でOK）。
+  ルールは `templates/backgrounds/README.md`。最低 15〜20 枚あると使い回しが目立たない
+
 ### 3. 音声（Google Cloud Text-to-Speech）
 1. https://console.cloud.google.com/ でプロジェクトを作成
 2. 「Cloud Text-to-Speech API」を有効化
@@ -57,10 +62,8 @@ Instagram **@daily_english_tsubasa** を AI 社員チームで運用するリポ
 4. Secrets に追加：`GOOGLE_TTS_API_KEY`
    （声は `templates/style.json` の `voices` で変更可）
 
-### 4. トークン自動延長用の GitHub トークン
-1. GitHub → Settings → Developer settings → **Fine-grained tokens** → Generate
-2. Repository access：`daily-english-insta` のみ ／ Permissions：**Secrets: Read and write**
-3. Secrets に追加：`GH_PAT`
+### 4. トークンの有効期限チェック
+毎月1日・15日に自動でチェック。失敗したら GitHub からメールが届くので、Meta for Developers で「トークンを生成」し直して `IG_ACCESS_TOKEN` を更新（GH_PAT は不要）
 
 ### 5. 動作テスト
 1. `samples/2026-11-17` を `queue/<今日の日付>` にコピーし、`post.json` の `date` を今日に変更して main に push

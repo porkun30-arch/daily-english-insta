@@ -21,7 +21,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-from common import draw_text, font, load_post, load_style, text_height
+from common import draw_text, font, load_post, load_style
 
 STYLE = load_style()
 C = STYLE["colors"]
@@ -37,52 +37,51 @@ def is_reel_day(p) -> bool:
 
 # ---------------------------------------------------------------- 画面
 
+def _bg(p):
+    from render import ROOT as R
+    bgp = p.get("background")
+    if bgp and (R / bgp).exists():
+        im = Image.open(R / bgp).convert("RGB")
+        r = max(W / im.width, H / im.height)
+        im = im.resize((int(im.width * r + 1), int(im.height * r + 1)))
+        x, y = (im.width - W) // 2, (im.height - H) // 2
+        return im.crop((x, y, x + W, y + H)).convert("RGBA")
+    return Image.new("RGBA", (W, H), C["fallback_bg_top"])
+
+
 def frame(kind, p, **kw) -> Image.Image:
-    img = Image.new("RGB", (W, H), C["accent"] if kind in ("hook", "end") else C["bg"])
+    bg = _bg(p)
+    if kind != "hook":
+        bg = Image.alpha_composite(bg, Image.new("RGBA", (W, H), (255, 255, 255, int(255 * STYLE.get("overlay_alpha", 0.78)))))
+    img = bg
     d = ImageDraw.Draw(img)
-    hl = p.get("highlight")
     # Reels の UI に隠れない安全領域：上 250px / 下 420px を避ける
     if kind == "hook":
-        y = 520
-        y += draw_text(d, (M, y), p["reel"]["hook"], font("bold", 60), CW, C["card"], align="center")
-        y += 120
-        fb = font("bold", 110)
-        ph = text_height(p["phrase"], fb, CW - 40, line_gap=1.3)
-        d.rounded_rectangle((M - 10, y - 40, W - M + 10, y + ph + 30), radius=40, fill=C["card"])
-        draw_text(d, (M + 10, y), p["phrase"], fb, CW - 40, C["accent"], line_gap=1.3,
-                  align="center", highlights=hl, highlight_color=C["highlight"])
-    elif kind == "meaning":
-        y = 560
-        y += draw_text(d, (M, y), p["phrase"], font("bold", 84), CW, C["accent"], line_gap=1.3,
-                       align="center", highlights=hl, highlight_color=C["highlight"])
-        y += 80
-        draw_text(d, (M, y), kw["text"], font("regular", 54), CW, C["text"], line_gap=1.6, align="center")
-    elif kind == "example":
-        y = 520
-        f = font("bold", 40)
-        t = f"例文 {kw['i']}"
-        d.text(((W - f.getlength(t)) / 2, y), t, font=f, fill=C["sub"])
-        y += 110
-        fe, fj = font("bold", 72), font("regular", 50)
-        eh = text_height(kw["en"], fe, CW - 80, line_gap=1.35)
-        jh = text_height(kw["ja"], fj, CW - 80, line_gap=1.5)
-        d.rounded_rectangle((M, y, W - M, y + eh + jh + 170), radius=36, fill=C["card"])
-        yy = y + 60
-        yy += draw_text(d, (M + 40, yy), kw["en"], fe, CW - 80, C["text"], line_gap=1.35,
-                        highlights=hl, highlight_color=C["highlight"])
-        yy += 40
-        draw_text(d, (M + 40, yy), kw["ja"], fj, CW - 80, C["sub"], line_gap=1.5)
-    elif kind == "end":
+        ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(ov).rounded_rectangle((50, 560, W - 50, 1320), radius=50, fill=(255, 255, 255, 190))
+        img.alpha_composite(ov)
+        d = ImageDraw.Draw(img)
         y = 640
-        y += draw_text(d, (M, y), "例文の続きと練習問題は\n今朝のカルーセル投稿で", font("bold", 62), CW,
-                       C["card"], line_gap=1.6, align="center")
-        y += 100
-        draw_text(d, (M, y), "保存して、次の会話で使ってみよう", font("bold", 50), CW, C["highlight"],
-                  align="center")
+        y += draw_text(d, (M, y), p["cover"]["title"], font("title", 120), CW, C["red"], line_gap=1.2, align="center")
+        y += 50
+        draw_text(d, (M, y), p["reel"]["hook"], font("title", 64), CW, C["red"], line_gap=1.35, align="center")
+    elif kind == "phrase":
+        y = 600
+        for e in kw["ens"]:
+            y += draw_text(d, (M, y), e, font("title", 96), CW, C["text"], line_gap=1.3,
+                           align="center")
+        y += 70
+        draw_text(d, (M, y), kw["note"], font("bold", 44), CW, C["red"], line_gap=1.6, align="center")
+    elif kind == "end":
+        y = 660
+        y += draw_text(d, (M, y), "解説とまとめ表は\n今朝のカルーセル投稿で", font("title", 66), CW, C["text"],
+                       line_gap=1.5, align="center")
+        y += 90
+        draw_text(d, (M, y), "見返せるように保存！", font("title", 60), CW, C["red"], align="center")
         f = font("regular", 40)
         t = STYLE["handle"]
-        d.text(((W - f.getlength(t)) / 2, H - 520), t, font=f, fill=C["card"])
-    return img
+        d.text(((W - f.getlength(t)) / 2, H - 520), t, font=f, fill=C["text"])
+    return img.convert("RGB")
 
 
 # ---------------------------------------------------------------- 音声
@@ -132,26 +131,19 @@ def segment(img: Image.Image, audio: Path | None, dur: float, out: Path, tmp: Pa
     subprocess.run(cmd, check=True)
 
 
-def first_sentence(text: str) -> str:
-    t = text.replace("\n", "")
-    i = t.find("。")
-    return t[: i + 1] if 0 <= i < 70 else t[:70]
-
-
 def make(folder: Path, silent: bool) -> bool:
     p = load_post(folder)
     if not is_reel_day(p):
         print(f"SKIP [{folder.name}] リール対象日ではありません")
         return True
-    src = json.dumps({k: p.get(k) for k in ("phrase", "highlight", "meaning", "examples", "reel")},
+    src = json.dumps({k: p.get(k) for k in ("phrase", "cover", "phrases", "reel", "background")},
                      ensure_ascii=False, sort_keys=True) + json.dumps(STYLE, sort_keys=True) + str(silent)
     digest = hashlib.sha256(src.encode()).hexdigest()[:16]
     stamp = folder / ".reel_hash"
     if (folder / "reel.mp4").exists() and stamp.exists() and stamp.read_text().strip() == digest:
         print(f"SKIP [{folder.name}] 変更なし")
         return True
-    ex = p["examples"]
-    idxs = p["reel"].get("example_indexes") or [0, 1, 2]
+    idxs = p["reel"].get("phrase_indexes") or list(range(min(3, len(p["phrases"]))))
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
         segs = []
@@ -167,12 +159,11 @@ def make(folder: Path, silent: bool) -> bool:
             segment(img, audio, dur, out, tmp)
             segs.append(out)
 
-        add(frame("hook", p), p["phrase"], "en", pad=1.2)
-        meaning = first_sentence(p["meaning"])
-        add(frame("meaning", p, text=meaning), meaning, "ja", pad=0.8)
-        for k, i in enumerate(idxs, 1):
-            e = ex[i]
-            add(frame("example", p, i=k, en=e["en"], ja=e["ja"]), e["en"], "en", pad=1.6)
+        add(frame("hook", p), p["reel"]["hook"], "ja", pad=0.8)
+        for i in idxs:
+            it = p["phrases"][i]
+            ens = it["en"] if isinstance(it["en"], list) else [it["en"]]
+            add(frame("phrase", p, ens=ens, note=it.get("note", "")), "  ".join(ens), "en", pad=2.2)
         add(frame("end", p), fixed=3.0)
 
         lst = tmp / "list.txt"
@@ -180,7 +171,7 @@ def make(folder: Path, silent: bool) -> bool:
         out = folder / "reel.mp4"
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
                         "-i", str(lst), "-c", "copy", "-movflags", "+faststart", str(out)], check=True)
-        frame("hook", p).convert("RGB").save(folder / "reel_cover.jpg", quality=92)
+        frame("hook", p).save(folder / "reel_cover.jpg", quality=92)
     stamp.write_text(digest)
     print(f"OK [{folder.name}] reel.mp4 ({duration(out):.1f}秒)")
     return True

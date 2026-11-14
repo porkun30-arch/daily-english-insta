@@ -4,26 +4,46 @@
   "post_time": "07:00",
   "reel_time": "21:00",
   "reel_weekdays": [1, 3, 5],
+  "tape_text": "今日から使える!",
+  "overlay_alpha": 0.78,
   "colors": {
-    "bg": "#FAF7F2",
-    "text": "#1E2A38",
-    "sub": "#6B7785",
-    "accent": "#1F3A5F",
-    "highlight": "#FFD45C",
-    "card": "#FFFFFF"
+    "red": "#F2463C",
+    "red_shadow": "#8E1E17",
+    "text": "#1A1A1A",
+    "sub": "#555555",
+    "white": "#FFFFFF",
+    "tape": "#EFEDE8",
+    "bookmark": "#F2958A",
+    "bulb": "#FFD84D",
+    "fallback_bg_top": "#BFD7EA",
+    "fallback_bg_bottom": "#F4E3D7"
+  },
+  "closing": {
+    "check_more": "ここから他の投稿もチェック！",
+    "intro": "このアカウントでは",
+    "bullets": ["日常会話のレパートリーを増やす", "伝えたいことをそのまま伝える", "教科書英語から脱却したい"],
+    "outro": "人たちに向けて、情報発信をしています！",
+    "save": "見返せるように保存！"
   },
   "fonts": {
+    "title": [
+      "templates/fonts/MPLUSRounded1c-Black.ttf",
+      "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc",
+      "/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc"
+    ],
     "bold": [
-      "templates/fonts/NotoSansJP-Bold.ttf",
+      "templates/fonts/MPLUSRounded1c-ExtraBold.ttf",
       "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
-      "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc",
-      "C:/Windows/Fonts/YuGothB.ttc"
+      "/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc"
     ],
     "regular": [
-      "templates/fonts/NotoSansJP-Regular.ttf",
-      "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
-      "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc",
-      "C:/Windows/Fonts/YuGothM.ttc"
+      "templates/fonts/MPLUSRounded1c-Medium.ttf",
+      "/usr/share/fonts/opentype/noto/NotoSansCJK-Medium.ttc",
+      "/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc"
+    ],
+    "hand": [
+      "templates/fonts/YuseiMagic-Regular.ttf",
+      "/usr/share/fonts/opentype/noto/NotoSansCJK-Black.ttc"
     ]
   },
   "voices": {
