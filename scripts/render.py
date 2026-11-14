@@ -105,7 +105,7 @@ def tape(img, text):
         d.point((x, y), fill=tuple(max(0, min(255, c + v)) for c in col) + (238,))
     f = font("hand", 76)
     tx = (tw + 40 - f.getlength(text)) / 2
-    d.text((tx, (th + 40 - 76) / 2 - 8), text, font=f, fill=C["red"])
+    d.text((tx, (th + 40 - 76) / 2 - 8), text, font=f, fill=C["red"], stroke_width=2, stroke_fill=C["red"])
     layer = layer.rotate(-2.5, resample=Image.BICUBIC, expand=True)
     sh = Image.new("RGBA", layer.size, (0, 0, 0, 0))
     sh.paste((0, 0, 0, 60), mask=layer.split()[3])
