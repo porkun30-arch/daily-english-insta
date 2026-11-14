@@ -128,7 +128,10 @@ def draw_text(draw, xy, text, fnt, max_width, fill, line_gap=1.45,
 # ---------------------------------------------------------------- Instagram API
 
 API_VERSION = os.environ.get("IG_API_VERSION", "v23.0")
-API_BASE = f"https://graph.instagram.com/{API_VERSION}"
+# EAA… で始まるトークン（Meta 統合ログイン / Facebook ログイン）は graph.facebook.com、
+# IGAA… で始まるトークン（Instagram ログイン）は graph.instagram.com を使う
+_HOST = "graph.instagram.com" if os.environ.get("IG_ACCESS_TOKEN", "").startswith("IG") else "graph.facebook.com"
+API_BASE = os.environ.get("IG_API_BASE", f"https://{_HOST}/{API_VERSION}")
 
 
 def ig_env(require_uid: bool = True):

@@ -40,16 +40,15 @@ Instagram **@daily_english_tsubasa** を AI 社員チームで運用するリポ
 5. **Settings → Secrets and variables → Actions → Variables** に追加：
    - `PAGES_BASE_URL` = 手順3の URL（末尾スラッシュなし）
 
-### 2. Instagram API（Meta for Developers）
-1. https://developers.facebook.com/ で「アプリを作成」→ ユースケースで Instagram の
-   **「Instagram API（Instagramログイン）」** を選ぶ
-2. 「API設定」で @daily_english_tsubasa を追加し、**アクセストークンを生成**
-   - 必要な権限：`instagram_business_basic` / `instagram_business_content_publish` /
-     `instagram_business_manage_comments` / `instagram_business_manage_insights`
-   - 自分のアカウントだけで使う場合は、通常アプリレビューは不要（開発モードのまま）
-3. Secrets に追加：`IG_ACCESS_TOKEN` = 生成したトークン
-4. **Actions → publish → Run workflow** で kind=`whoami` を実行 → ログに出る `user_id` を
-   Secrets の `IG_USER_ID` に追加
+### 2. Instagram API（Meta for Developers）※設定済み
+2026年11月時点の手順（新しいアプリは「統合ログイン」方式のみ）：
+1. Meta for Developers でアプリ作成 → ユースケース「Instagramでメッセージとコンテンツを管理」
+2. ビジネスポートフォリオを作成してリンク
+3. 「API setup with Unified login」で設定を作成 → Instagram アカウントを Instagram テスターとして追加し、
+   Instagram の「アプリとウェブサイト → テスターへのご招待」で承認
+4. 「トークンを生成」→ Secret `IG_ACCESS_TOKEN` に登録（`EAA…` で始まる → graph.facebook.com を自動で使用）
+5. Secret `IG_USER_ID` = Instagram アカウントID（アプリ画面のアカウント名の下の数字）
+6. **Actions → publish → Run workflow（kind=whoami）** で接続とトークン期限を確認
 
 ### 3. 音声（Google Cloud Text-to-Speech）
 1. https://console.cloud.google.com/ でプロジェクトを作成
