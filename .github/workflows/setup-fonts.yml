@@ -20,14 +20,16 @@ jobs:
           for f in mplusrounded1c/MPLUSRounded1c-Black.ttf \
                    mplusrounded1c/MPLUSRounded1c-ExtraBold.ttf \
                    mplusrounded1c/MPLUSRounded1c-Medium.ttf \
-                   mplusrounded1c/OFL.txt \
                    yuseimagic/YuseiMagic-Regular.ttf; do
-            name=$(basename $f)
-            [ "$name" = "OFL.txt" ] && name="OFL-MPLUSRounded1c.txt"
-            curl -fsSL "$base/$f" -o "templates/fonts/$name"
-            echo "downloaded $name"
+            curl -fsSL "$base/$f" -o "templates/fonts/$(basename $f)"
+            echo "downloaded $(basename $f)"
           done
-          curl -fsSL "$base/yuseimagic/OFL.txt" -o templates/fonts/OFL-YuseiMagic.txt
+          # ライセンス文（SIL Open Font License）。ファイル名はフォントごとに異なるので、あるものだけ取得
+          for d in mplusrounded1c yuseimagic; do
+            for lic in OFL.txt LICENSE.txt; do
+              curl -fsSL "$base/$d/$lic" -o "templates/fonts/LICENSE-$d.txt" && break || true
+            done
+          done
           ls -la templates/fonts
       - name: Commit
         run: |
