@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-14",
+  "phrase": "なるほどね",
+  "genre": "会議",
+  "level": "やさしい",
+  "background": "templates/backgrounds/travel_hongkong_food_magnets.jpg",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「なるほどね」",
+    "sub": "英語で言えますか？"
+  },
+  "intro": {
+    "lead": "「なるほどね」",
+    "body": "って相づち、会話でも会議でも\n1日に何回も使ってませんか？\n\nでも英語だと I see ばっかりに\nなりがちですよね。"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "I see.",
+      "note": "一番シンプルな「なるほど」。\n日常でも会議でも使える万能フレーズです。",
+      "tip": {
+        "en": "Oh, I see.",
+        "ja": "「あ〜、そういうことね」と気づいた感じに"
+      }
+    },
+    {
+      "en": "That makes sense.",
+      "note": "「筋が通ってるね」「納得！」という意味。\n相手の説明に納得した時にぴったりです。"
+    },
+    {
+      "lead": "カジュアルに言うなら！",
+      "en": [
+        "Got it.",
+        "Gotcha."
+      ],
+      "note": "「了解、わかった」に近いニュアンス。\nGotcha は友達との会話向けです。"
+    },
+    {
+      "en": "Fair enough.",
+      "note": "「まあ、それもそうだね」と\n相手の意見を受け入れる時に使います。",
+      "example": {
+        "en": "We need more time? Fair enough.",
+        "ja": "もう少し時間が必要？それもそうだね。"
+      }
+    }
+  ],
+  "caption": "「なるほどね」英語で言えますか？\n\nI see ばかりになりがちな相づち。ちょっと変えるだけで会話がぐっと自然になります。\n\n会議なら That makes sense.、友達となら Gotcha. がおすすめ！\n\nあなたがよく使う相づちはどれですか？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#英語フレーズ",
+    "#ビジネス英語",
+    "#日常英会話"
+  ]
+}
