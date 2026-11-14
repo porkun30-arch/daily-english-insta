@@ -1,0 +1,48 @@
+name: on-main
+# main への push 時：
+#  - 承認（マージ）された投稿で使った体験談 Issue を閉じる
+#  - リサーチャーが research/*.md を追加したら「ネタ候補」Issue を作る
+on:
+  push:
+    branches: [main]
+    paths: ["queue/**/post.json", "research/20*.md"]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: repo-write
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements.txt
+      - name: Labels
+        run: |
+          gh label create "体験談" --color FFD45C 2>/dev/null || true
+          gh label create "ネタ候補" --color 1F3A5F 2>/dev/null || true
+      - name: Research issue
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -q '^research/20'; then
+            python scripts/gh_tasks.py research-issue
+          fi
+      - name: Close used experiences
+        run: python scripts/gh_tasks.py close-used
+      - name: Commit
+        run: |
+          git config user.name "insta-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data
+          git diff --cached --quiet && exit 0
+          git commit -m "Record used experiences"
+          git pull --rebase && git push

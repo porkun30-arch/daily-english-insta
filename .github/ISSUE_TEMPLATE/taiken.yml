@@ -1,0 +1,18 @@
+name: 体験談メモ
+description: 投稿に使える英語の体験談をストックする（メモ書きでOK）
+title: "体験談："
+labels: ["体験談"]
+body:
+  - type: textarea
+    id: memo
+    attributes:
+      label: どんなことがあった？
+      description: 箇条書き・一言でOK。Claude は書いてあることだけを使い、話を足しません
+      placeholder: "例）会議で発言したいのにタイミングが掴めず、結局最後まで何も言えなかった"
+    validations:
+      required: true
+  - type: dropdown
+    id: genre
+    attributes:
+      label: ジャンル（わかれば）
+      options: ["日常", "旅行", "会議", "わからない"]

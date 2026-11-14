@@ -1,0 +1,60 @@
+name: publish
+# 毎朝 7:00 カルーセル / 火木土 21:00 リール（JST）
+# Actions は定刻から遅れることがあるため 20 分前に起動し、スクリプト内で定刻まで待つ
+on:
+  schedule:
+    - cron: "40 21 * * *"      # 06:40 JST 毎日 → carousel
+    - cron: "40 11 * * 2,4,6"  # 20:40 JST 火木土 → reel
+  workflow_dispatch:
+    inputs:
+      kind: { description: "carousel / reel", default: "carousel", type: choice, options: [carousel, reel, whoami] }
+      date: { description: "YYYY-MM-DD（空なら今日）", required: false }
+      dry_run: { description: "投稿せず内容だけ表示", type: boolean, default: true }
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-write
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      PAGES_BASE_URL: ${{ vars.PAGES_BASE_URL }}
+      TZ: Asia/Tokyo
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements.txt
+
+      - name: Decide kind
+        id: k
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "kind=${{ inputs.kind }}" >> $GITHUB_OUTPUT
+            echo "args=${{ inputs.date && format('--date {0}', inputs.date) || '' }} ${{ inputs.dry_run && '--dry-run' || '' }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.schedule }}" = "40 21 * * *" ]; then
+            echo "kind=carousel" >> $GITHUB_OUTPUT
+            echo "args=--wait-until 07:00" >> $GITHUB_OUTPUT
+          else
+            echo "kind=reel" >> $GITHUB_OUTPUT
+            echo "args=--wait-until 21:00" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Publish
+        run: python scripts/publish.py ${{ steps.k.outputs.kind }} ${{ steps.k.outputs.args }}
+
+      - name: Commit
+        run: |
+          git config user.name "insta-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A queue posted
+          git diff --cached --quiet && exit 0
+          git commit -m "Publish ${{ steps.k.outputs.kind }} $(date +%F)"
+          git pull --rebase && git push
