@@ -159,10 +159,13 @@ def main():
             print(ig_request("GET", uid, {"fields": "id,username,followers_count,media_count"}))
         tok = os.environ["IG_ACCESS_TOKEN"]
         if tok.startswith("EAA"):
-            info = ig_request("GET", "debug_token", {"input_token": tok}).get("data", {})
-            exp = info.get("expires_at", 0)
-            print("token type:", info.get("type"), "/ scopes:", ", ".join(info.get("scopes", [])))
-            print("expires:", "なし（無期限）" if not exp else datetime.fromtimestamp(exp, JST).isoformat())
+            try:
+                info = ig_request("GET", "debug_token", {"input_token": tok}).get("data", {})
+                exp = info.get("expires_at", 0)
+                print("expires:", "なし（無期限）" if not exp else datetime.fromtimestamp(exp, JST).isoformat())
+            except RuntimeError:
+                print("（トークンの有効期限はこのトークンでは確認できません。接続は上記のとおりOK）")
+        print("接続OK")
         return
 
     d = a.date or today_jst()

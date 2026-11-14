@@ -1,5 +1,6 @@
 name: refresh-token
-# Instagram の長期トークン（60日）を毎月 1日・15日 に延長し、Secret を上書きする
+# 毎月 1日・15日：トークンの有効性チェック（IGAA トークンなら延長して Secret を上書き）
+# 失敗したら GitHub からメール通知が届く → トークンを再発行する
 on:
   schedule:
     - cron: "0 3 1,15 * *"
@@ -16,6 +17,7 @@ jobs:
       - run: python scripts/refresh_token.py
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
       - name: Update secret
         if: hashFiles('token.txt') != ''
         env:

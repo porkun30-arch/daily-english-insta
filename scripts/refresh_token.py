@@ -14,22 +14,15 @@ if not token:
     sys.exit("IG_ACCESS_TOKEN が未設定です")
 
 if token.startswith("EAA"):
-    r = requests.get("https://graph.facebook.com/v23.0/debug_token",
-                     params={"input_token": token, "access_token": token}, timeout=60)
-    info = r.json().get("data", {})
-    if not info.get("is_valid"):
-        print(f"::error::トークンが無効です。Meta for Developers で再発行してください: {r.json()}")
+    # 統合ログインのトークンは延長APIがないため、有効かどうかだけ確認する
+    uid = os.environ.get("IG_USER_ID", "me")
+    r = requests.get(f"https://graph.facebook.com/v23.0/{uid}",
+                     params={"fields": "id,username", "access_token": token}, timeout=60)
+    if r.status_code != 200:
+        print(f"::error::トークンが無効か期限切れです。Meta for Developers で「トークンを生成」し直し、"
+              f"Secret IG_ACCESS_TOKEN を更新してください: {r.text[:300]}")
         sys.exit(1)
-    exp = info.get("expires_at", 0)
-    if not exp:
-        print("トークンは無期限です。延長は不要です。")
-        sys.exit(0)
-    days = (datetime.fromtimestamp(exp, timezone.utc) - datetime.now(timezone.utc)).days
-    msg = f"トークンの残り日数: {days}日"
-    if days < 14:
-        print(f"::error::{msg}。Meta for Developers で再発行し、Secret IG_ACCESS_TOKEN を更新してください。")
-        sys.exit(1)
-    print(msg)
+    print("トークンは有効です。")
     sys.exit(0)
 
 r = requests.get("https://graph.instagram.com/refresh_access_token",
