@@ -65,6 +65,10 @@ def frame(kind, p, **kw) -> Image.Image:
         y += draw_text(d, (M, y), p["cover"]["title"], font("title", 120), CW, C["red"], line_gap=1.2, align="center")
         y += 50
         draw_text(d, (M, y), p["reel"]["hook"], font("title", 64), CW, C["red"], line_gap=1.35, align="center")
+        from render import chara
+        c = chara(p["cover"].get("chara", "normal"), 300)
+        if c is not None:
+            img.alpha_composite(c, (W - 360, 300))
     elif kind == "phrase":
         y = 600
         for e in kw["ens"]:
@@ -78,6 +82,11 @@ def frame(kind, p, **kw) -> Image.Image:
                        line_gap=1.5, align="center")
         y += 90
         draw_text(d, (M, y), "見返せるように保存！", font("title", 60), CW, C["red"], align="center")
+        from render import chara
+        c = chara("happy", 320)
+        if c is not None:
+            img.alpha_composite(c, ((W - 320) // 2, 1080))
+            d = ImageDraw.Draw(img)
         f = font("regular", 40)
         t = STYLE["handle"]
         d.text(((W - f.getlength(t)) / 2, H - 520), t, font=f, fill=C["text"])

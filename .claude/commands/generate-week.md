@@ -32,6 +32,7 @@ description: 【編集長】来週（月〜日）7本の投稿を作成し、wee
 - 各日 `queue/<日付>/post.json` を作成（形式は samples を参照）
 - 体験談は CLAUDE.md「体験談のルール」を厳守（**書かれていないことは足さない**）。`experience.source` に元のメモを原文のまま残す
 - 体験談がない日も `intro.body`（共感フック）は必ず書く
+- ブランド要素を必ず入れる：各フレーズの `casual`、ツバ吉の `intro.chara_says` / `summary_says` と表情（CLAUDE.md「ブランド要素」）
 
 ## 6. 画像チェック
 - `python scripts/render.py queue/<日付> ...` を全日付で実行。WARNING が出たら文字量を減らす

@@ -1,9 +1,16 @@
 {
-  "size": [1080, 1350],
+  "size": [
+    1080,
+    1350
+  ],
   "handle": "@daily_english_tsubasa",
   "post_time": "07:00",
   "reel_time": "21:00",
-  "reel_weekdays": [1, 3, 5],
+  "reel_weekdays": [
+    1,
+    3,
+    5
+  ],
   "tape_text": "今日から使える!",
   "overlay_alpha": 0.78,
   "colors": {
@@ -21,7 +28,11 @@
   "closing": {
     "check_more": "ここから他の投稿もチェック！",
     "intro": "このアカウントでは",
-    "bullets": ["日常会話のレパートリーを増やす", "伝えたいことをそのまま伝える", "教科書英語から脱却したい"],
+    "bullets": [
+      "日常会話のレパートリーを増やす",
+      "伝えたいことをそのまま伝える",
+      "教科書英語から脱却したい"
+    ],
     "outro": "人たちに向けて、情報発信をしています！",
     "save": "見返せるように保存！"
   },
@@ -47,7 +58,32 @@
     ]
   },
   "voices": {
-    "en": {"languageCode": "en-US", "name": "en-US-Neural2-F", "speakingRate": 0.92},
-    "ja": {"languageCode": "ja-JP", "name": "ja-JP-Neural2-B", "speakingRate": 1.0}
+    "en": {
+      "languageCode": "en-US",
+      "name": "en-US-Neural2-F",
+      "speakingRate": 0.92
+    },
+    "ja": {
+      "languageCode": "ja-JP",
+      "name": "ja-JP-Neural2-B",
+      "speakingRate": 1.0
+    }
+  },
+  "series": {
+    "name": "ふとした英語",
+    "start": 14
+  },
+  "character": {
+    "name": "ツバ吉",
+    "dir": "templates/character",
+    "prefix": "tsubakichi_",
+    "expressions": [
+      "normal",
+      "trouble",
+      "idea",
+      "happy",
+      "surprised",
+      "smug"
+    ]
   }
 }
