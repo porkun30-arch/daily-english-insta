@@ -10,10 +10,10 @@ Instagram **@daily_english_tsubasa** を AI 社員チームで運用するリポ
 
 ```
 水 20:00  [Actions] 反応データ・コメント取得
-水 21:00  [Claude] リサーチャー → research/*.md → 「ネタ候補」Issue 自動作成
+水 20:38  [Claude] リサーチャー → research/*.md → 「ネタ候補」Issue 自動作成
 水〜金    [つばさ] Issue に体験談を一言コメント（いつでも「体験談」Issue も作れる）
 土 06:00  [Actions] 反応データ・体験談を inbox/ に取り込み
-土 08:00  [Claude] アナリスト → 編集長 → 英語校閲 → week/* ブランチに push
+土 07:40  [Claude] アナリスト → 編集長 → 英語校閲 → week/* ブランチに push
           [Actions] 画像・リール動画を生成して PR 作成
 〜月 07:00 [つばさ] スマホで確認、体験談なしの日は追記 → マージ
 毎日      [Actions] 07:00 カルーセル / 火木土 21:00 リール

@@ -6,9 +6,9 @@ Instagram @daily_english_tsubasa の投稿を AI 社員チームで生成・管�
 ## チーム体制
 | 部署 | 役割 | 定義 | 起動 |
 |---|---|---|---|
-| 編集部 | 編集長（メイン） | `.claude/commands/generate-week.md` | 土 8:00 |
+| 編集部 | 編集長（メイン） | `.claude/commands/generate-week.md` | 土 7:40 |
 | 編集部 | 英語校閲 | `.claude/agents/proofreader.md` | 編集長が呼ぶ |
-| マーケティング部 | リサーチャー | `.claude/agents/researcher.md`（`/research-week`） | 水 21:00 |
+| マーケティング部 | リサーチャー | `.claude/agents/researcher.md`（`/research-week`） | 水 20:38 |
 | マーケティング部 | アナリスト | `.claude/agents/analyst.md` | 編集長が最初に呼ぶ |
 
 ## コミットのルール
