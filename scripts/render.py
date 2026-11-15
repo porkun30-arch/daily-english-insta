@@ -135,22 +135,22 @@ def arrow_right(d, x, y, length, color):
 
 
 def curly_arrow(d, color):
-    """左上（プロフィール方向）を指す、くるっと一回転した手書き風の矢印。"""
+    """左上（プロフィール方向）を指す、なめらかな手書き風の矢印。"""
     import math
-    pts = [(335, 255), (300, 250), (262, 240)]
-    cx, cy, r = 232, 212, 34
-    a0 = math.atan2(240 - cy, 262 - cx)
-    for i in range(1, 41):  # 時計回りに1周ループ
-        a = a0 - 2 * math.pi * i / 40
-        pts.append((cx + r * math.cos(a) * 1.1, cy + r * math.sin(a)))
-    sx, sy = pts[-1]
-    for i in range(1, 21):  # 左上へ伸ばす
-        t = i / 20
-        pts.append((sx + (75 - sx) * t, sy + (95 - sy) * t - 25 * math.sin(math.pi * t)))
-    d.line(pts, fill=color, width=5, joint="curve")
-    ex, ey = pts[-1]
-    d.line([(ex, ey), (ex + 2, ey + 52)], fill=color, width=5)
-    d.line([(ex, ey), (ex + 50, ey + 10)], fill=color, width=5)
+    p0, p1, p2 = (335, 250), (150, 265), (88, 92)   # 2次ベジェ曲線
+    pts = []
+    for i in range(41):
+        t = i / 40
+        x = (1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * p1[0] + t ** 2 * p2[0]
+        y = (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * p1[1] + t ** 2 * p2[1]
+        pts.append((x, y))
+    d.line(pts, fill=color, width=6, joint="curve")
+    # 矢じり：終点での進行方向に合わせて左右に開く
+    ang = math.atan2(p2[1] - p1[1], p2[0] - p1[0])
+    for da in (math.radians(150), math.radians(-150)):
+        hx = p2[0] + 42 * math.cos(ang + da)
+        hy = p2[1] + 42 * math.sin(ang + da)
+        d.line([p2, (hx, hy)], fill=color, width=6)
 
 
 # ---------------------------------------------------------------- キャラクター・シリーズ・メーター
