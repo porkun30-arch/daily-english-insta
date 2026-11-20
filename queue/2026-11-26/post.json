@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-26",
+  "phrase": "よかったね！",
+  "genre": "日常",
+  "level": "やさしい",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「よかったね」",
+    "sub": "すぐ出てきますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「よかったね！」",
+    "body": "友達のうれしい報告に\n「よかったね！」って返したいのに\nGood. しか出てこないこと\nありませんか？",
+    "chara": "trouble",
+    "chara_says": "よかったね！って…\nGood. だけじゃそっけない？"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "That's great news!",
+      "note": "「それはいい知らせだね！」。\n誰にでも使える万能な「よかったね」。",
+      "casual": 3
+    },
+    {
+      "en": "I'm so happy for you!",
+      "note": "「自分のことのようにうれしい！」\n合格や結婚など大きな報告に。",
+      "casual": 4
+    },
+    {
+      "en": "I'm glad to hear that.",
+      "note": "「それが聞けてよかった」という\n落ち着いた言い方。目上の人にも使えます。",
+      "casual": 2
+    },
+    {
+      "en": "Good for you!",
+      "note": "「よかったじゃん！」と軽く祝う一言。\n言い方次第で皮肉にも聞こえるので笑顔で。",
+      "casual": 4
+    }
+  ],
+  "caption": "「よかったね！」英語ですぐ出てきますか？\n\nうれしい報告への返事が Good. だけだと、ちょっとそっけなく聞こえちゃうかも。\n\n迷ったら That's great news!、仲のいい友達には I'm so happy for you! がおすすめ！\n\n最近あった「よかったね！」な出来事、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#英語フレーズ",
+    "#日常英会話",
+    "#相づち"
+  ],
+  "reel": {
+    "hook": "「よかったね！」英語でパッと言えますか？",
+    "phrase_indexes": [
+      0,
+      1,
+      3
+    ]
+  },
+  "reel_caption": "「よかったね！」の英語、音声で発音チェック🎧 詳しくは今朝の投稿で👆",
+  "summary_chara": "happy",
+  "summary_says": "友達の報告には\nI'm so happy for you! だ！"
+}

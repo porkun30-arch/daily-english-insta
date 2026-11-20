@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-23",
+  "phrase": "お疲れさま",
+  "genre": "日常",
+  "level": "やさしい",
+  "background": "templates/backgrounds/sample_city_evening.jpg",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「お疲れさま」",
+    "sub": "英語で言えますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「お疲れさま」",
+    "body": "って、仕事終わりにも\nあいさつ代わりにも使える\n便利な一言ですよね。\n\nでも英語には、ぴったり同じ\n一言がないんです。",
+    "chara": "trouble",
+    "chara_says": "お疲れさま…って\nYou're tired? でいいの？"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Good work today.",
+      "note": "「今日もお疲れさま」とねぎらう定番。\n同僚や後輩に使いやすい一言です。",
+      "tip": {
+        "en": "Great job today!",
+        "ja": "「今日はよく頑張ったね！」とほめる感じに"
+      },
+      "casual": 3
+    },
+    {
+      "en": "Thanks for all you do.",
+      "note": "「いつも頑張ってくれてありがとう」という\n感謝のお疲れさま。チームや家族にも。",
+      "casual": 2
+    },
+    {
+      "lead": "帰り際なら！",
+      "en": [
+        "See you tomorrow!",
+        "Have a good night!"
+      ],
+      "note": "帰る時の「お疲れさまでした」は\n英語ではあいさつで済ませるのが自然です。",
+      "casual": 3,
+      "tip": {
+        "en": "Have a good weekend!",
+        "ja": "金曜の帰りならこれが定番"
+      }
+    },
+    {
+      "en": "Long day, huh?",
+      "note": "「長い1日だったね〜」と\n疲れた相手に共感する言い方。友達や同僚に。",
+      "example": {
+        "en": "Long day, huh? Let's grab dinner.",
+        "ja": "今日は長かったね〜。ごはん行こう。"
+      },
+      "casual": 4
+    }
+  ],
+  "caption": "「お疲れさま」英語で言えますか？\n\n毎日のように言う「お疲れさま」。英語にはぴったり同じ一言がないので、場面で使い分けるのがコツです。\n\nねぎらうなら Good work today.、帰り際なら Have a good night! がおすすめ！\n\n今日は勤労感謝の日。あなたは誰に「お疲れさま」を伝えたいですか？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#英語フレーズ",
+    "#日常英会話",
+    "#勤労感謝の日"
+  ],
+  "summary_chara": "happy",
+  "summary_says": "次の帰り際は\nHave a good night! で決まり！"
+}

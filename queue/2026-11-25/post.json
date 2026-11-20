@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-25",
+  "phrase": "もう一回言ってもらえますか？",
+  "genre": "会議",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「もう一回言って\nもらえますか？」",
+    "sub": "会議で使える！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「もう一回言ってもらえますか？」",
+    "body": "英語の会議で聞き取れなかったのに\nなんとなくうなずいちゃうこと\nありますよね。\n\n聞き返すのは失礼じゃないんです。",
+    "chara": "trouble",
+    "chara_says": "聞き取れなかった…\nとりあえず I see…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Can you say that again?",
+      "note": "一番使いやすい聞き返し。\n頭に Sorry, を付けると柔らかい印象に。",
+      "tip": {
+        "en": "Sorry?",
+        "ja": "短く聞き返すなら語尾を上げてこれだけでもOK"
+      },
+      "casual": 3
+    },
+    {
+      "en": "I didn't quite catch that.",
+      "note": "「ちょっと聞き取れませんでした」。\n自分が聞き逃した形なので角が立ちません。",
+      "casual": 2
+    },
+    {
+      "en": "Could you repeat that?",
+      "note": "「もう一度言ってもらえますか」。\nthat を the last part にすると\n「最後のところだけ」に。",
+      "casual": 2
+    },
+    {
+      "lead": "オンライン会議なら！",
+      "en": "Sorry, you cut out.",
+      "note": "「一瞬、音声が途切れました」と伝える一言。\n聞き返すきっかけにもなります。",
+      "example": {
+        "en": "You cut out. Can you say that again?",
+        "ja": "音声が途切れました。もう一度いいですか？"
+      },
+      "casual": 3
+    }
+  ],
+  "caption": "「もう一回言ってもらえますか？」英語で言えますか？\n\n英語の会議で聞き取れなくても、つい流してしまう…という人は多いはず。聞き返すのは全然失礼じゃありません。\n\n迷ったら Sorry, can you say that again?、丁寧にいくなら I didn't quite catch that. がおすすめ！\n\n英語で会議がある同僚にも送ってみてください。あなたは聞き返せる派？流しちゃう派？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#ビジネス英語",
+    "#英語会議",
+    "#英語フレーズ"
+  ],
+  "summary_chara": "smug",
+  "summary_says": "次の会議では\nもう聞き流さないぞ！"
+}
