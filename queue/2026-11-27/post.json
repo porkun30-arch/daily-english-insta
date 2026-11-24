@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-27",
+  "phrase": "予約したはずなんですが",
+  "genre": "旅行",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「予約したはず\nなんですが…」",
+    "sub": "年末年始の旅行前に\n保存して！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「予約したはずなんですが…」",
+    "body": "ホテルのチェックインで\n「予約が見つかりません」って\n言われたらドキッとしますよね。\n\n落ち着いて伝えれば大丈夫です。",
+    "chara": "surprised",
+    "chara_says": "予約…したはず…！\nI reserved!! しか言えない…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "I have a reservation.",
+      "note": "「予約しています」の定番。\n後ろに under Tanaka と名前を続けます。",
+      "casual": 2
+    },
+    {
+      "en": "I'm sure I booked a room.",
+      "note": "「確かに予約したはずなんですが」。\n見つからない時に落ち着いて伝える一言。",
+      "tip": {
+        "en": "I booked it online.",
+        "ja": "「ネットで予約しました」と方法も伝えて"
+      },
+      "casual": 3
+    },
+    {
+      "en": "Here's my confirmation.",
+      "note": "予約確認メールや画面を見せながら。\n言葉より早く伝わることも多いです。",
+      "casual": 3
+    },
+    {
+      "en": "Could you check again?",
+      "note": "「もう一度確認してもらえますか？」。\n最後に please を付けるとより丁寧です。",
+      "example": {
+        "en": "It's T-A-N-A-K-A. Could you check again?",
+        "ja": "T-A-N-A-K-A です。もう一度見てもらえますか？"
+      },
+      "casual": 2
+    }
+  ],
+  "caption": "「予約したはずなんですが…」英語で言えますか？\n\nチェックインで予約が見つからないと焦りますよね。でも伝え方さえ知っていれば落ち着いて対応できます。\n\nまずは I have a reservation under ○○. と、確認メールを見せながら Here's my confirmation. がおすすめ！\n\n年末年始に旅行する人は保存＆一緒に行く人にシェアしてください。旅先の予約トラブル、経験ありますか？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#旅行英会話",
+    "#海外旅行",
+    "#ホテル英語"
+  ],
+  "summary_chara": "idea",
+  "summary_says": "確認メールを用意して\nHere's my confirmation. だ！"
+}

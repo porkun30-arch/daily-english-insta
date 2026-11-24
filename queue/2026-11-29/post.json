@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-29",
+  "phrase": "ゆっくり話してもらえますか？",
+  "genre": "日常",
+  "level": "やさしい",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「ゆっくり話して\nもらえますか？」",
+    "sub": "便利すぎる！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「ゆっくり話してもらえますか？」",
+    "body": "オンライン英会話や海外旅行で\n相手の英語が速すぎて\nついていけないこと、ありますよね。\n\nゆっくりお願いするのは全然アリです！",
+    "chara": "trouble",
+    "chara_says": "速すぎる…\nSlowly, please! で合ってる？"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Could you speak slower?",
+      "note": "「ゆっくり話してもらえますか？」。\na little slower だとより柔らかく。",
+      "casual": 2
+    },
+    {
+      "en": "Could you slow down?",
+      "note": "「ペースを落としてもらえますか？」。\n最後に a little を付けると柔らかく。",
+      "casual": 3
+    },
+    {
+      "en": "Could you rephrase that?",
+      "note": "「別の言い方でお願いできますか？」。\n速さより単語が難しい時に便利です。",
+      "casual": 2
+    },
+    {
+      "lead": "ひと言そえるなら！",
+      "en": "I'm still learning English.",
+      "note": "「まだ英語を勉強中で」と添えると\n相手もペースを合わせてくれやすくなります。",
+      "casual": 3
+    }
+  ],
+  "caption": "「ゆっくり話してもらえますか？」英語で言えますか？\n\nオンライン英会話でも旅行先でも、相手が速すぎて固まっちゃうことありますよね。ゆっくりお願いするのは失礼じゃありません。\n\nまずは Could you speak slower?、会話の途中なら Could you slow down? がおすすめ！\n\n英語が速すぎて焦った経験、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#英語フレーズ",
+    "#オンライン英会話",
+    "#日常英会話"
+  ],
+  "summary_chara": "happy",
+  "summary_says": "次のレッスンでは\nCould you slow down? だ！"
+}

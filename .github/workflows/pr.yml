@@ -45,7 +45,10 @@ jobs:
       - name: Make reels
         if: steps.d.outputs.dates != ''
         run: |
-          cd scripts && for d in ${{ steps.d.outputs.dates }}; do python make_reel.py ../queue/$d; done
+          # GOOGLE_TTS_API_KEY が未登録なら音声なし（--silent）で作る
+          SILENT=""
+          if [ -z "$GOOGLE_TTS_API_KEY" ]; then SILENT="--silent"; echo "::warning::GOOGLE_TTS_API_KEY が未設定のため、リールは音声なしで作成します"; fi
+          cd scripts && for d in ${{ steps.d.outputs.dates }}; do python make_reel.py $SILENT ../queue/$d; done
 
       - name: Commit generated files
         run: |

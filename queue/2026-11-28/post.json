@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-28",
+  "phrase": "ちょっといいですか？",
+  "genre": "会議",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「ちょっといい\nですか？」",
+    "sub": "英語で言えますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「ちょっといいですか？」",
+    "body": "英語の会議で発言したいのに\n割り込むタイミングがわからず\n結局黙っちゃう…ってこと\nありますよね。",
+    "chara": "trouble",
+    "chara_says": "ちょっと…あの…\nExcuse me…？"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Can I jump in here?",
+      "note": "「ここでちょっといいですか？」と\n話に入る時の定番。会議でよく聞きます。",
+      "casual": 3
+    },
+    {
+      "en": "Sorry to interrupt, but...",
+      "note": "「お話し中すみませんが…」。\n相手の話の途中に入る時の丁寧な言い方。",
+      "casual": 2
+    },
+    {
+      "en": "Could I add something?",
+      "note": "「一点付け加えてもいいですか？」。\n話の切れ目で使う丁寧な言い方です。",
+      "casual": 1
+    },
+    {
+      "lead": "軽く聞くなら！",
+      "en": "Quick question.",
+      "note": "「ちょっと質問！」と軽く手を挙げる感じ。\n社内の打ち合わせや友達との会話で。",
+      "example": {
+        "en": "Quick question. Is this due Friday?",
+        "ja": "ちょっと質問。これって金曜締め？"
+      },
+      "casual": 4
+    }
+  ],
+  "caption": "会議の「ちょっといいですか？」英語で言えますか？\n\n英語の会議は話すスピードが速くて、割り込むタイミングが難しいですよね。決まった一言を持っておくと、ぐっと発言しやすくなります。\n\nまずは Can I jump in here?、目上の人がいる場なら Could I add something? がおすすめ！\n\nあなたは会議で発言できる派？聞き役派？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#ビジネス英語",
+    "#英語会議",
+    "#英語フレーズ"
+  ],
+  "reel": {
+    "hook": "会議の「ちょっといいですか？」英語で言える？",
+    "phrase_indexes": [
+      0,
+      1,
+      3
+    ]
+  },
+  "reel_caption": "会議の「ちょっといいですか？」の英語、音声で発音チェック🎧 詳しくは今朝の投稿で👆",
+  "summary_chara": "smug",
+  "summary_says": "次の会議では\nCan I jump in here? で参戦！"
+}
