@@ -1,0 +1,66 @@
+{
+  "date": "2026-12-03",
+  "phrase": "さすが！",
+  "genre": "日常",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「さすが！」",
+    "sub": "英語で言えますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「さすが！」",
+    "body": "友達が試験に受かったとき、\n同僚のプレゼンが大成功したとき、\n「さすが！」って言いたくなりますよね。\n\nでも英語にすると\nなんて言えばいいんだろう…",
+    "chara": "trouble",
+    "chara_says": "さすが！って…\nGreat! しか出てこない…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Way to go!",
+      "note": "明るく言えば「やったね！さすが！」。\n友達や同僚の成功をほめる定番です。",
+      "casual": 4
+    },
+    {
+      "en": "You nailed it!",
+      "note": "「完璧だったね！」。\nプレゼンや試験がうまくいった人に。",
+      "casual": 4
+    },
+    {
+      "en": "I knew you could do it!",
+      "note": "「あなたならできると思ってた！」。\n信頼していた感じが伝わる「さすが」です。",
+      "casual": 3
+    },
+    {
+      "lead": "目上の人には！",
+      "en": "That's impressive.",
+      "note": "「お見事です」。\n上司や取引先にも使える落ち着いたほめ方。",
+      "casual": 2
+    }
+  ],
+  "caption": "「さすが！」英語で言えますか？\n\n直訳しにくい日本語の代表「さすが」。Great! だけだとちょっと物足りないですよね。\n\n友達なら Way to go!、相手を信じてた気持ちを伝えるなら I knew you could do it! がおすすめ！\n\n最近だれかに「さすが！」って言ったこと、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#日常英会話",
+    "#英語フレーズ"
+  ],
+  "reel": {
+    "hook": "「さすが！」って英語でなんて言う？",
+    "phrase_indexes": [
+      0,
+      1,
+      2
+    ]
+  },
+  "reel_caption": "「さすが！」の英語、音声で発音チェック🎧 詳しくは今朝の投稿で👆",
+  "summary_chara": "happy",
+  "summary_says": "友達がうまくいったら\nWay to go! って言う！"
+}

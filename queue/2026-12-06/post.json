@@ -1,0 +1,64 @@
+{
+  "date": "2026-12-06",
+  "phrase": "寒すぎる〜",
+  "genre": "日常",
+  "level": "やさしい",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「寒すぎる〜」",
+    "sub": "英語で言えますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「寒すぎる〜」",
+    "body": "12月に入って\n朝晩がぐっと冷えてきましたよね。\n\n思わず出る「寒すぎる〜」、\n英語だと Very cold で\n止まっていませんか？",
+    "chara": "surprised",
+    "chara_says": "さむっ！\nVery cold… で合ってる？"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": [
+        "It's freezing!",
+        "I'm freezing."
+      ],
+      "note": "「寒すぎる！」の定番。\nIt's はその場の寒さ、I'm は自分の体感。",
+      "casual": 3
+    },
+    {
+      "en": "It's chilly today.",
+      "note": "「今日は肌寒いね」。\nchilly は freezing より軽いひんやり感。",
+      "casual": 3
+    },
+    {
+      "lead": "あいさつ代わりに！",
+      "en": "Cold today, isn't it?",
+      "note": "「今日は冷えるね」。\nていねいに言うなら頭に It's を付けて。",
+      "casual": 4
+    },
+    {
+      "lead": "別れぎわに！",
+      "en": [
+        "Bundle up!",
+        "Stay warm!"
+      ],
+      "note": "「あったかくしてね！」。\nBundle up! は米国でよく使われます。",
+      "casual": 4
+    }
+  ],
+  "caption": "「寒すぎる〜」英語で言えますか？\n\n12月に入って一気に冷えてきましたね。Very cold だけじゃなく、寒さの度合いで言い分けられると自然です。\n\nとにかく寒い！なら It's freezing!、別れぎわには Bundle up! がおすすめ！\n\nあなたの住んでいる所は今どのくらい寒いですか？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#日常英会話",
+    "#英語フレーズ"
+  ],
+  "summary_chara": "happy",
+  "summary_says": "明日の朝は\nIt's freezing! って言う！"
+}

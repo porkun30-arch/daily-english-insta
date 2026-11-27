@@ -1,0 +1,67 @@
+{
+  "date": "2026-12-05",
+  "phrase": "おすすめはなんですか？",
+  "genre": "旅行",
+  "level": "やさしい",
+  "background": "templates/backgrounds/travel_hongkong_food_magnets.jpg",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「おすすめは\nなんですか？」",
+    "sub": "旅行先で便利すぎる！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「おすすめはなんですか？」",
+    "body": "海外のレストランで\nメニューが読めない…\n何を頼めばいいかわからない…\nそんなこと、ありますよね。\n\nそんな時は店員さんに聞くのが一番！",
+    "chara": "trouble",
+    "chara_says": "メニューが\nぜんぜん読めない…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "What do you recommend?",
+      "note": "「おすすめは何ですか？」の定番。\nレストランでもお店でも使えます。",
+      "casual": 2
+    },
+    {
+      "en": "What's good here?",
+      "note": "「ここは何がおいしい？」。\nカジュアルなお店で気軽に聞ける言い方。",
+      "casual": 4
+    },
+    {
+      "en": "What's popular here?",
+      "note": "「人気なのはどれですか？」。\n迷ったら人気メニューを聞くのもアリです。",
+      "casual": 3
+    },
+    {
+      "lead": "店員さんの好みを聞くなら！",
+      "en": "What would you get?",
+      "note": "「あなたなら何を頼みますか？」。\n店員さん本人のおすすめが聞けます。",
+      "casual": 3
+    }
+  ],
+  "caption": "「おすすめはなんですか？」英語で言えますか？\n\n海外のレストランでメニューが読めないとき、店員さんに聞くのが一番の近道です。\n\nどこでも使えるのは What do you recommend?、カジュアルなお店なら What's good here? がおすすめ！\n\n旅行先で食べたおすすめメニュー、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#旅行英語",
+    "#海外旅行",
+    "#レストラン英語"
+  ],
+  "reel": {
+    "hook": "レストランで「おすすめは？」って英語でなんて言う？",
+    "phrase_indexes": [
+      0,
+      1,
+      3
+    ]
+  },
+  "reel_caption": "「おすすめは？」の英語、音声で発音チェック🎧 詳しくは今朝の投稿で👆",
+  "summary_chara": "happy",
+  "summary_says": "旅行先で\nWhat's good here? って聞く！"
+}

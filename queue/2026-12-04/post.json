@@ -1,0 +1,62 @@
+{
+  "date": "2026-12-04",
+  "phrase": "個人的には〜と思います",
+  "genre": "会議",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「個人的には\n〜と思います」",
+    "sub": "会議で使える！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「個人的には〜と思います」",
+    "body": "英語の会議で意見を言うとき、\nI think... ばかりに\nなっていませんか？\n\n前置きを変えるだけで\nぐっと言いやすくなります！",
+    "chara": "trouble",
+    "chara_says": "I think... I think...\nばっかりになる…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Personally, I think ...",
+      "note": "「個人的には〜と思います」。\n自分の意見だとやわらかく前置きできます。",
+      "example": {
+        "en": "Personally, I think we should wait.",
+        "ja": "個人的には、もう少し待ったほうがいいと思います。"
+      },
+      "casual": 3
+    },
+    {
+      "en": "In my opinion, ...",
+      "note": "「私の意見では〜」。\n少しかしこまった、会議向きの言い方です。",
+      "casual": 2
+    },
+    {
+      "en": "The way I see it, ...",
+      "note": "「私の見方だと〜」。\n自分なりの考えを伝える少しくだけた言い方。",
+      "casual": 3
+    },
+    {
+      "lead": "カジュアルに言うなら！",
+      "en": "If you ask me, ...",
+      "note": "「言わせてもらうと〜」。\n雑談向き。会議では強めに響くことも。",
+      "casual": 4
+    }
+  ],
+  "caption": "「個人的には〜と思います」英語で言えますか？\n\n英語の会議で意見を言うとき、I think... ばかりになっていませんか？\n\n会議なら In my opinion,、自分の意見だと前置きするなら Personally, I think がおすすめ！\n\n会議で使えるように保存して、同僚にも送ってみてください📌 あなたは会議でどれを使いますか？コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#ビジネス英語",
+    "#英語会議",
+    "#英語フレーズ"
+  ],
+  "summary_chara": "idea",
+  "summary_says": "次の会議では\nPersonally, から始める！"
+}
