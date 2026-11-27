@@ -1,0 +1,71 @@
+{
+  "date": "2026-12-01",
+  "phrase": "マジで？",
+  "genre": "日常",
+  "level": "やさしい",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「マジで？」",
+    "sub": "英語で言えますか？",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「マジで？」",
+    "body": "友達のびっくりする話に\n思わず「マジで？」って\n言いたくなりますよね。\n\nでも英語だと Really? ばかりに\nなっていませんか？",
+    "chara": "surprised",
+    "chara_says": "マジで？って…\nReally? しか言えない…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Seriously?",
+      "note": "「マジで？」に一番近いひと言。\n驚いた時にも、あきれた時にも使えます。",
+      "casual": 4
+    },
+    {
+      "en": "No way!",
+      "note": "「うそでしょ！」と強く驚く感じ。\nいい知らせにも悪い知らせにも使えます。",
+      "example": {
+        "en": "You won the tickets? No way!",
+        "ja": "チケット当たったの？うそでしょ！"
+      },
+      "casual": 4
+    },
+    {
+      "lead": "親しい友達なら！",
+      "en": "For real?",
+      "note": "「ガチで？」くらいのくだけた言い方。\n親しい友達との会話向けです。",
+      "casual": 5
+    },
+    {
+      "lead": "ていねいに驚くなら！",
+      "en": "Wow, I had no idea.",
+      "note": "「へえ、知らなかったです」。\n同僚や目上の人の話にも使いやすい驚き方。",
+      "casual": 2
+    }
+  ],
+  "caption": "「マジで？」英語で言えますか？\n\n驚いたとき、つい Really? ばかりになっていませんか？相づちを変えるだけで会話がぐっと盛り上がります。\n\n友達なら Seriously? や No way!、ていねいに言うなら Wow, I had no idea. がおすすめ！\n\nあなたが最近「マジで？」って言ったこと、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#日常英会話",
+    "#英語フレーズ"
+  ],
+  "reel": {
+    "hook": "「マジで？」って英語でなんて言う？",
+    "phrase_indexes": [
+      0,
+      1,
+      3
+    ]
+  },
+  "reel_caption": "「マジで？」の英語、音声で発音チェック🎧 詳しくは今朝の投稿で👆",
+  "summary_chara": "smug",
+  "summary_says": "Really? はもう卒業！\nNo way! 使ってみる！"
+}

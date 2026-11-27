@@ -1,0 +1,66 @@
+{
+  "date": "2026-12-02",
+  "phrase": "乗り継ぎに間に合わないかも",
+  "genre": "旅行",
+  "level": "ふつう",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「乗り継ぎに\n間に合わないかも」",
+    "sub": "旅行前に保存して！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「乗り継ぎに間に合わないかも」",
+    "body": "年末年始の空港は混雑して\n遅延も多くなりますよね。\n\n乗り継ぎがギリギリのとき、\n焦らず英語で伝えられるように\nしておきましょう！",
+    "chara": "surprised",
+    "chara_says": "飛行機が遅れてる！\n乗り継ぎどうしよう…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "I'll miss my connection.",
+      "note": "「乗り継ぎに間に合いません」。\nconnection は「乗り継ぎ便」のことです。",
+      "tip": {
+        "en": "I might miss my connection.",
+        "ja": "「間に合わないかも」と少し控えめに"
+      },
+      "casual": 2
+    },
+    {
+      "en": "My flight was delayed.",
+      "note": "「乗ってきた便が遅れたんです」。\n事情を説明するときの基本のひと言。",
+      "casual": 3
+    },
+    {
+      "en": "Could you rebook me?",
+      "note": "「振り替えてもらえますか？」。\nrebook は「予約を取り直す」の意味です。",
+      "example": {
+        "en": "Could you rebook me on the next flight?",
+        "ja": "次の便に振り替えてもらえますか？"
+      },
+      "casual": 2
+    },
+    {
+      "lead": "まず場所を聞くなら！",
+      "en": "Where do I transfer?",
+      "note": "「乗り継ぎはどこへ行けばいいですか？」。\nTransfer や Connections の表示が目印。",
+      "casual": 3
+    }
+  ],
+  "caption": "「乗り継ぎに間に合わないかも」英語で言えますか？\n\n年末年始の空港は混雑して遅延も多め。乗り継ぎがギリギリだと本当に焦りますよね。\n\nまずは I might miss my connection. と伝えて、Could you rebook me? で次の便への振り替えをお願いしましょう！\n\n旅行前に保存して、一緒に行く人にも送ってあげてください✈️ 空港で焦った経験、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#旅行英語",
+    "#海外旅行",
+    "#空港英語"
+  ],
+  "summary_chara": "idea",
+  "summary_says": "出発前に保存して\nおこうっと！"
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-30",
+  "phrase": "聞こえてますか？",
+  "genre": "会議",
+  "level": "やさしい",
+  "background": "",
+  "cover": {
+    "tape": "今日から使える!",
+    "title": "「聞こえてますか？」",
+    "sub": "会議で使える！",
+    "chara": "normal"
+  },
+  "intro": {
+    "lead": "「聞こえてますか？」",
+    "body": "オンライン会議の始まりや\n音声が途切れたとき、\nとっさに英語で言えますか？\n\nHello? Hello? だけで\nごまかしがちですよね。",
+    "chara": "trouble",
+    "chara_says": "Hello? Hello?…\nしか出てこない…"
+  },
+  "experience": {
+    "issue": null,
+    "comment_id": null,
+    "source": "",
+    "text": ""
+  },
+  "phrases": [
+    {
+      "en": "Can you hear me okay?",
+      "note": "「私の声、ちゃんと聞こえてますか？」。\n会議の最初の音声チェックの定番です。",
+      "casual": 2,
+      "tip": {
+        "en": "Can everyone hear me?",
+        "ja": "参加者が複数いるならこちら"
+      }
+    },
+    {
+      "en": "I think you're on mute.",
+      "note": "「ミュートになってるみたいですよ」。\nI think を付けると柔らかく伝わります。",
+      "casual": 3
+    },
+    {
+      "en": "You're breaking up.",
+      "note": "「声が途切れ途切れです」。\n電波が悪い相手に失礼なく伝えられます。",
+      "casual": 2
+    },
+    {
+      "lead": "画面共有のときは！",
+      "en": "Can you see my screen?",
+      "note": "「画面、見えてますか？」。\n共有を始めたらまずこのひと言。",
+      "casual": 2
+    }
+  ],
+  "caption": "「聞こえてますか？」英語で言えますか？\n\nオンライン会議の最初や音声トラブルのとき、Hello? Hello? だけになりがちですよね。\n\nまずは Can you hear me okay?、相手がミュートなら I think you're on mute. がおすすめ！\n\nオンライン会議で焦ったこと、コメントで教えてください💬",
+  "hashtags": [
+    "#英語学習",
+    "#英会話",
+    "#ビジネス英語",
+    "#オンライン会議",
+    "#英語フレーズ"
+  ],
+  "summary_chara": "happy",
+  "summary_says": "次のオンライン会議は\nCan you hear me okay? から！"
+}
